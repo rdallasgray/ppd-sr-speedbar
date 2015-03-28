@@ -14,7 +14,7 @@
 
 (defun project-persist-drawer-after-open (dir)
     (ppd/sr-speedbar-pin dir)
-    (ppd/sr-speedbar-rededicate)))
+    (ppd/sr-speedbar-rededicate))
 
 ;;; Internal
 
@@ -36,8 +36,8 @@
   (ppd/sr-speedbar-pin-advice-activate))
 
 (defun ppd/sr-speedbar-unpin ()
-  ((mapc (lambda (ls) (apply 'ad-disable-advice ls)) ppd/sr-speedbar-pin-advice)
-   (ppd/sr-speedbar-pin-advice-activate)))
+  (mapc (lambda (ls) (apply 'ad-disable-advice ls)) ppd/sr-speedbar-pin-advice)
+  (ppd/sr-speedbar-pin-advice-activate))
 
 (defun ppd/sr-speedbar-pin-advice-activate ()
   "Activate the advice applied to speedbar functions in order to pin it to a directory."
