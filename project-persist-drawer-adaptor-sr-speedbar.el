@@ -48,7 +48,7 @@
 
      (defun project-persist-drawer--open (dir)
        (let ((window-state (window-state-get)))
-         (delete-other-windows (window-top-child (frame-root-window)))
+         (delete-other-windows (frame-first-window))
          (sr-speedbar-open)
          (speedbar-update-contents)
          (window-state-put window-state (window-next-sibling sr-speedbar-window))))
