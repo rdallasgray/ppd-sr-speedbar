@@ -44,27 +44,19 @@
                   (sr-speedbar-exist-p))
          sr-speedbar-window))
 
-     (defun project-persist-drawer--before-open (dir))
-
      (defun project-persist-drawer--open (dir)
        (let ((window-state (window-state-get)))
          (delete-other-windows (frame-first-window))
          (sr-speedbar-open)
          (speedbar-update-contents)
-         (window-state-put window-state (window-next-sibling sr-speedbar-window))))
-
-     (defun project-persist-drawer--after-open (dir)
-       (ppdss/pin dir)
-       (ppdss/rededicate))
-
-     (defun project-persist-drawer--before-close ()
-       (ppdss/undedicate)
-       (ppdss/unpin))
+         (window-state-put window-state (window-next-sibling sr-speedbar-window))
+         (ppdss/pin dir)
+         (ppdss/rededicate)))
 
      (defun project-persist-drawer--close ()
+       (ppdss/undedicate)
+       (ppdss/unpin)
        (sr-speedbar-close))
-
-     (defun project-persist-drawer--after-close ())
 
 ;;; Internal
 
@@ -194,3 +186,4 @@
             (ppdss/select-target-window))))))
 
 (provide 'project-persist-drawer-adaptor-sr-speedbar)
+;;; project-persist-drawer-adaptor-sr-speedbar.el ends here
