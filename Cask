@@ -2,4 +2,4 @@
 
 (package "project-persist-drawer-adaptor-sr-speebar" "@VERSION" "Sr Speedbar adaptor for project-persist-drawer.")
 
-(depends-on "sr-speedbar" "20141004.532")
+(depends-on "sr-speedbar" "20140914.2339")
