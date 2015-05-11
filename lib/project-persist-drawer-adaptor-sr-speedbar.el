@@ -56,60 +56,60 @@
          (sr-speedbar-open)
          (speedbar-update-contents)
          (window-state-put window-state (window-next-sibling sr-speedbar-window))
-         (ppdss/pin dir)
-         (ppdss/rededicate)))
+         (ppdass--pin dir)
+         (ppdass--rededicate)))
 
      (defun project-persist-drawer--close ()
-       (ppdss/undedicate)
-       (ppdss/unpin)
+       (ppdass--undedicate)
+       (ppdass--unpin)
        (sr-speedbar-close))
 
 ;;; Internal
 
-     (defun ppdss/undedicate ()
-       (ppdss/try-set-window-dedication nil))
+     (defun ppdass--undedicate ()
+       (ppdass--try-set-window-dedication nil))
 
-     (defun ppdss/rededicate ()
-       (ppdss/try-set-window-dedication t))
+     (defun ppdass--rededicate ()
+       (ppdass--try-set-window-dedication t))
 
-     (defun ppdss/try-set-window-dedication (p)
+     (defun ppdass--try-set-window-dedication (p)
        (let ((window (project-persist-drawer--get-window)))
          (when window
            (set-window-dedicated-p window p))))
 
-     (defun ppdss/pin (dir)
+     (defun ppdass--pin (dir)
        "Prevent the speedbar from changing the displayed root directory."
-       (setq ppdss/pinned-directory dir)
-       (mapc (lambda (ls) (apply 'ad-enable-advice ls)) ppdss/pin-advice)
-       (ppdss/pin-advice-activate))
+       (setq ppdass--pinned-directory dir)
+       (mapc (lambda (ls) (apply 'ad-enable-advice ls)) ppdass--pin-advice)
+       (ppdass--pin-advice-activate))
 
-     (defun ppdss/unpin ()
-       (mapc (lambda (ls) (apply 'ad-disable-advice ls)) ppdss/pin-advice)
-       (ppdss/pin-advice-activate))
+     (defun ppdass--unpin ()
+       (mapc (lambda (ls) (apply 'ad-disable-advice ls)) ppdass--pin-advice)
+       (ppdass--pin-advice-activate))
 
-     (defun ppdss/pin-advice-activate ()
+     (defun ppdass--pin-advice-activate ()
        "Activate the advice applied to speedbar functions in order to pin it to a directory."
-       (mapc 'ad-activate (mapcar 'car ppdss/pin-advice)))
+       (mapc 'ad-activate (mapcar 'car ppdass--pin-advice)))
 
-     (defun ppdss/setup-pinning ()
+     (defun ppdass--setup-pinning ()
        (defadvice speedbar-update-directory-contents
-           (around ppdss/pin-directory activate disable)
-         "Pin the speedbar to the directory set in ppdss/pinned-directory."
-         (let ((default-directory ppdss/pinned-directory))
+           (around ppdass--pin-directory activate disable)
+         "Pin the speedbar to the directory set in ppdass--pinned-directory."
+         (let ((default-directory ppdass--pinned-directory))
            ad-do-it))
        (defadvice speedbar-dir-follow
-           (around ppdss/prevent-follow activate disable)
+           (around ppdass--prevent-follow activate disable)
          "Prevent speedbar changing directory on button clicks."
          (speedbar-toggle-line-expansion))
        (defadvice speedbar-directory-buttons-follow
-           (around ppdss/prevent-root-follow activate disable)
+           (around ppdass--prevent-root-follow activate disable)
          "Prevent speedbar changing root directory on button clicks.")
-       (defvar ppdss/pin-advice
-         '((speedbar-update-directory-contents around ppdss/pin-directory)
-           (speedbar-dir-follow around ppdss/prevent-follow)
-           (speedbar-directory-buttons-follow around ppdss/prevent-root-follow))))
+       (defvar ppdass--pin-advice
+         '((speedbar-update-directory-contents around ppdass--pin-directory)
+           (speedbar-dir-follow around ppdass--prevent-follow)
+           (speedbar-directory-buttons-follow around ppdass--prevent-root-follow))))
 
-     (defun ppdss/load-settings ()
+     (defun ppdass--load-settings ()
        (setq speedbar-hide-button-brackets-flag t
              speedbar-show-unknown-files t
              speedbar-smart-directory-expand-flag t
@@ -123,18 +123,18 @@
              sr-speedbar-skip-other-window-p t
              sr-speedbar-right-side nil))
 
-     (defvar ppdss/refresh-hooks '(after-save-hook))
-     (defvar ppdss/refresh-hooks-added nil)
+     (defvar ppdass--refresh-hooks '(after-save-hook))
+     (defvar ppdass--refresh-hooks-added nil)
 
-     (defun ppdss/add-refresh-hooks ()
-       (when (not ppdss/refresh-hooks-added)
+     (defun ppdass--add-refresh-hooks ()
+       (when (not ppdass--refresh-hooks-added)
          (lambda ()
            (mapc (lambda (hook)
                    (add-hook hook 'speedbar-refresh))
-                 ppdss/refresh-hooks)
-           (setq ppdss/refresh-hooks-added t))))
+                 ppdass--refresh-hooks)
+           (setq ppdass--refresh-hooks-added t))))
 
-     (defun ppdss/setup-speedbar ()
+     (defun ppdass--setup-speedbar ()
        (add-hook 'speedbar-mode-hook
                  '(lambda ()
                     (hl-line-mode 1)
@@ -144,52 +144,52 @@
                       (set-display-table-slot speedbar-display-table 0 8230)
                       (setq buffer-display-table speedbar-display-table)))))
 
-     (defun ppdss/setup-keymap ()
+     (defun ppdass--setup-keymap ()
        (add-hook 'speedbar-reconfigure-keymaps-hook
                  '(lambda ()
                     (define-key speedbar-mode-map [right] 'speedbar-flush-expand-line)
                     (define-key speedbar-mode-map [left] 'speedbar-contract-line))))
 
-     (defvar ppdss/target-window
+     (defvar ppdass--target-window
        (if (not (eq (selected-window) sr-speedbar-window))
            (selected-window)
          (other-window 1)))
 
-     (defun ppdss/select-target-window ()
+     (defun ppdass--select-target-window ()
        (message "selecting target window")
-       (select-window ppdss/target-window))
+       (select-window ppdass--target-window))
 
-     (defun ppdss/setup-target-window ()
+     (defun ppdass--setup-target-window ()
        (defadvice select-window (after remember-selected-window activate)
          (unless (or (eq (selected-window) sr-speedbar-window)
                      (not (window-live-p (selected-window))))
-           (setq ppdss/target-window (selected-window)))))
+           (setq ppdass--target-window (selected-window)))))
 
      (eval-after-load 'sr-speedbar
        '(progn
-          (ppdss/load-settings)
-          (ppdss/add-refresh-hooks)
-          (ppdss/setup-speedbar)
-          (ppdss/setup-keymap)
-          (ppdss/setup-target-window)
-          (ppdss/setup-pinning)
+          (ppdass--load-settings)
+          (ppdass--add-refresh-hooks)
+          (ppdass--setup-speedbar)
+          (ppdass--setup-keymap)
+          (ppdass--setup-target-window)
+          (ppdass--setup-pinning)
 
           ;; Overrides
           (defun sr-speedbar-before-visiting-file-hook ()
             "Function that hooks `speedbar-before-visiting-file-hook'."
-            (ppdss/select-target-window))
+            (ppdass--select-target-window))
 
           (defun sr-speedbar-before-visiting-tag-hook ()
             "Function that hooks `speedbar-before-visiting-tag-hook'."
-            (ppdss/select-target-window))
+            (ppdass--select-target-window))
 
           (defun sr-speedbar-visiting-file-hook ()
             "Function that hooks `speedbar-visiting-file-hook'."
-            (ppdss/select-target-window))
+            (ppdass--select-target-window))
 
           (defun sr-speedbar-visiting-tag-hook ()
             "Function that hooks `speedbar-visiting-tag-hook'."
-            (ppdss/select-target-window))))))
+            (ppdass--select-target-window))))))
 
 (provide 'project-persist-drawer-adaptor-sr-speedbar)
 ;;; project-persist-drawer-adaptor-sr-speedbar.el ends here
