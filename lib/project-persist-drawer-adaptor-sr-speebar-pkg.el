@@ -1,2 +1,3 @@
 (define-package "project-persist-drawer-adaptor-sr-speebar" "0.0.1" "Sr Speedbar adaptor for project-persist-drawer."
-  '((sr-speedbar "20140914.2339")))
+  '((sr-speedbar "20140914.2339")
+    (project-persist-drawer "0.0.1")))

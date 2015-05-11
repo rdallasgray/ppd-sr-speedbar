@@ -34,6 +34,7 @@
 ;;; Code:
 
 (require 'sr-speedbar)
+(require 'project-persist-drawer)
 
 ;;; Interface
 
