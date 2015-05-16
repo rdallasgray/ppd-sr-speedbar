@@ -1,9 +1,9 @@
-;;; project-persist-drawer-adaptor-sr-speebar.el --- Sr Speedbar Adaptor for project-persist-drawer
+;;; ppd-sr-speedbar.el --- Sr Speedbar Adaptor for project-persist-drawer
 
 ;; Copyright (C) 2015 Robert Dallas Gray
 
 ;; Author: Robert Dallas Gray
-;; URL: https://github.com/rdallasgray/project-persist-drawer-adaptor-sr-speedbar
+;; URL: https://github.com/rdallasgrayppd-sr-speedbar
 ;; Version: 0.0.2
 ;; Created: 2015-04-18
 ;; Keywords: projects, drawer
