@@ -1,2 +1,2 @@
-PROJECT_LCNAME=project-persist-drawer-adaptor-sr-speedbar
+PROJECT_LCNAME=ppd-sr-speedbar
 include el.mk/el.mk
