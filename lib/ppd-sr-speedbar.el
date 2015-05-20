@@ -4,7 +4,7 @@
 
 ;; Author: Robert Dallas Gray
 ;; URL: https://github.com/rdallasgrayppd-sr-speedbar
-;; Version: 0.0.2
+;; Version: 0.0.3
 ;; Created: 2015-04-18
 ;; Keywords: projects, drawer
 
