@@ -151,7 +151,6 @@
          (other-window 1)))
 
      (defun ppd-sr-speedbar--select-target-window ()
-       (message "selecting target window")
        (select-window ppd-sr-speedbar--target-window))
 
      (defun ppd-sr-speedbar--setup-target-window ()
