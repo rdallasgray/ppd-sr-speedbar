@@ -4,7 +4,7 @@
 
 ;; Author: Robert Dallas Gray
 ;; URL: https://github.com/rdallasgrayppd-sr-speedbar
-;; Version: 0.0.3
+;; Version: 0.0.4
 ;; Created: 2015-04-18
 ;; Keywords: projects, drawer
 
@@ -156,7 +156,6 @@
          (other-window 1)))
 
      (defun ppd-sr-speedbar--select-target-window ()
-       (message "selecting target window")
        (select-window ppd-sr-speedbar--target-window))
 
      (defun ppd-sr-speedbar--setup-target-window ()
