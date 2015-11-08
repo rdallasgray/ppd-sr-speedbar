@@ -4,7 +4,7 @@
 
 ;; Author: Robert Dallas Gray
 ;; URL: https://github.com/rdallasgrayppd-sr-speedbar
-;; Version: 0.0.4
+;; Version: 0.0.5
 ;; Created: 2015-04-18
 ;; Keywords: projects, drawer
 
@@ -53,6 +53,7 @@
      (defun project-persist-drawer--open (dir)
        (let ((window-state (window-state-get)))
          (delete-other-windows (frame-first-window))
+         (setq default-directory dir)
          (sr-speedbar-open)
          (speedbar-update-contents)
          (window-state-put window-state (window-next-sibling sr-speedbar-window))
