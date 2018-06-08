@@ -71,7 +71,8 @@
      (defun ppd-sr-speedbar--try-set-window-dedication (p)
        (let ((window (project-persist-drawer--get-window)))
          (when window
-           (set-window-dedicated-p window p))))
+           (set-window-dedicated-p window p)
+           (when p (setq split-height-threshold nil)))))
 
      (defun ppd-sr-speedbar--pin (dir)
        "Prevent the speedbar from changing the displayed root directory."
